@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>67 Endless Runner</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background: #ffffff; color: #111; overflow: hidden; }
+    canvas { display: block; }
+    #start-screen, #countdown-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    #start-screen { background: #ffffff; }
+    #start-button { padding: 16px 32px; font-size: 20px; border-radius: 12px; border: 2px solid #111; background: #f1f5f9; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    #start-button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    #countdown-overlay { background: rgba(255,255,255,0.92); pointer-events: none; opacity: 0; transition: opacity 0.2s ease; }
+    #countdown-overlay.active { opacity: 1; pointer-events: auto; }
+    #countdown-number { font-size: 96px; font-weight: 800; color: #111; }
+
+    #hud { position: fixed; top: 16px; left: 16px; background: rgba(255,255,255,0.82); padding: 12px 14px; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); z-index: 3; min-width: 180px; backdrop-filter: blur(6px); border: 1px solid rgba(0,0,0,0.06); }
+    #score { font-size: 28px; font-weight: 800; margin: 0 0 8px 0; }
+    .coin-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+    .coin-row img { width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.08); background: #fff; padding: 3px; }
+    .coin-row span { font-size: 16px; font-weight: 700; min-width: 30px; }
+
+    #floating-text-layer { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+
+    #config-panel { position: fixed; top: 16px; right: 16px; width: 320px; max-height: calc(100vh - 32px); overflow: auto; background: rgba(17,24,39,0.9); color: #f8fafc; padding: 14px; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.35); z-index: 4; display: none; }
+    #config-panel h2 { margin: 6px 0 12px; font-size: 18px; }
+    #config-panel label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; font-size: 13px; }
+    #config-panel input { width: 120px; padding: 4px 6px; border-radius: 6px; border: 1px solid rgba(148,163,184,0.6); background: rgba(255,255,255,0.08); color: #f8fafc; }
+    #config-panel .group { margin: 10px 0 12px; padding: 8px; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }
+    #config-panel button { margin-right: 6px; padding: 6px 10px; border-radius: 8px; border: none; cursor: pointer; background: #22c55e; color: #0b1727; font-weight: 700; }
+    #config-panel button.secondary { background: #0ea5e9; color: #0b1727; }
+    #config-panel textarea { width: 100%; min-height: 80px; background: rgba(255,255,255,0.08); border: 1px solid rgba(148,163,184,0.5); color: #e2e8f0; border-radius: 10px; padding: 8px; }
+    #config-hint { position: fixed; bottom: 12px; right: 16px; background: rgba(0,0,0,0.68); color: #e2e8f0; padding: 10px 12px; border-radius: 12px; font-size: 13px; z-index: 4; }
+
+    @media (max-width: 640px) {
+      #score { font-size: 22px; }
+      #start-button { width: 70%; font-size: 18px; }
+      #config-panel { width: calc(100% - 32px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="start-screen">
+    <button id="start-button">Start 67 Game</button>
+  </div>
+  <div id="countdown-overlay">
+    <div id="countdown-number">3</div>
+  </div>
+
+  <div id="hud">
+    <div id="score">Score: 0</div>
+    <div class="coin-row"><img src="./assets/images/ground-coin-image-silver.png" alt="Ground coin" /> <span id="ground-count">0</span></div>
+    <div class="coin-row"><img src="./assets/images/jump-coin-image-gold.png" alt="Jump coin" /> <span id="jump-count">0</span></div>
+    <div class="coin-row"><img src="./assets/images/advanced-coin-image-blue.png" alt="Advanced coin" /> <span id="advanced-count">0</span></div>
+  </div>
+  <div id="floating-text-layer"></div>
+  <div id="config-panel"></div>
+  <div id="config-hint">Press <strong>P</strong> to toggle the tuning panel.</div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
